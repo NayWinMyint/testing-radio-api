@@ -7,7 +7,7 @@ from pydub import AudioSegment
 from mutagen.mp3 import MP3
 import numpy as np
 
-with open("dejavu.cnf.SAMPLE") as f:
+with open("dejavu.cnf") as f:
     config = json.load(f)
 
 class AudioRecognise(Resource):
@@ -24,7 +24,7 @@ class AudioRecognise(Resource):
         print(data)
         if data['file']:
             audio = data['file']
-            file_name = audio.filename.encode('utf-8')
+            file_name = audio.filename
             dir_path = '/Volumes/Data/Workspace/pancasikha_radio_monitoring_api/code/temp/audio_to_recognise'
             file_path = os.path.join(dir_path, file_name)
             audio.save(file_path)
@@ -60,7 +60,7 @@ class AudioRecognise(Resource):
                             1
                         ])
 
-                    print "++: %s\n" % song
+                    print ("++: %s\n" % song)
 
             # for segment in np.arange(segment_ms,audio_ms,segment_ms):
             #     segment_end_ms = segment+segment_ms

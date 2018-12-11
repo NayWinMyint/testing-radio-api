@@ -3,7 +3,7 @@ import werkzeug, os, json
 from flask_restful import Resource, reqparse
 from dejavu import Dejavu
 
-with open("dejavu.cnf.SAMPLE") as f:
+with open("dejavu.cnf") as f:
     config = json.load(f)
 
 class SongFingerprint(Resource):
@@ -24,7 +24,7 @@ class SongFingerprint(Resource):
             for song in songs:
                 print('----------->')
                 print(song)
-                file_name = song.filename.encode('utf-8')
+                file_name = song.filename
                 file_path = os.path.join('/Volumes/Data/Workspace/pancasikha_radio_monitoring_api/code/temp', file_name)
                 song.save(file_path)
 

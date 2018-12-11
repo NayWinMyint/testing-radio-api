@@ -78,6 +78,9 @@ def fingerprint(channel_samples, Fs=DEFAULT_FS,
 		window=mlab.window_hanning,
 		noverlap=int(wsize * wratio))[0]
 
+	#python 3 supress runtime warning => RuntimeWarning: divide by zero encountered in log10
+	np.seterr(divide = 'ignore')
+
 	# apply log transform since specgram() returns linear array
 	arr2D = 10 * np.log10(arr2D)
 	arr2D[arr2D == -np.inf] = 0  # replace infs with zeros
