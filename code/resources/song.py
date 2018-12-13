@@ -2,6 +2,7 @@ import werkzeug, os, json
 
 from flask_restful import Resource, reqparse
 from dejavu import Dejavu
+import boto3
 
 with open("dejavu.cnf") as f:
     config = json.load(f)
@@ -34,5 +35,36 @@ class SongFingerprint(Resource):
                 print("'{}' fingerptinted. Next...".format(file_name))
 
             return {'message': 'Fingerprinting success.'}
+
+        return {'message': 'No audio file found.'}, 404
+
+class SongFingerprintDir(Resource):
+    def post(self):
+
+        local_dir = '/Volumes/Data/Workspace/pancasikha_radio_monitoring_api/code/temp'
+        prefix = 'to_fingerprint/'
+
+        print("started ->")
+        djv = Dejavu(config)
+        djv.fingerprint_directory(local_dir, [".mp3"])
+        print("ended ->")
+
+        for filename in os.listdir(local_dir):
+            if filename.endswith(".mp3"):
+                remotekeyfile = prefix + filename
+                localfilepath = os.path.join(local_dir, filename)
+
+                try:
+                    if os.path.isfile(localfilepath):
+                        #move fingerprinted songs to s3
+                        s3_client = boto3.client('s3')
+                        s3_client.upload_file(localfilepath, 'pancasikha', remotekeyfile)
+                        print("{} done moved".format(filename))
+                        os.unlink(localfilepath)
+                except Exception as e:
+                    print(e)
+
+
+        return {'message': 'Fingerprinting success.'}
 
         return {'message': 'No audio file found.'}, 404

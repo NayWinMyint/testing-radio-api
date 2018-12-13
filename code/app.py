@@ -4,7 +4,7 @@ from flask_jwt import JWT
 import boto3
 from config import S3_BUCKET, S3_KEY, S3_SECRET
 
-from resources.song import SongFingerprint
+from resources.song import SongFingerprint, SongFingerprintDir
 from resources.audio import AudioRecognise
 
 s3_resource = boto3.resource(
@@ -24,7 +24,9 @@ def files():
 
     return 'success'
 api.add_resource(SongFingerprint, '/fingerprint')
+api.add_resource(SongFingerprintDir, '/fingerprint_dir')
 api.add_resource(AudioRecognise, '/recognise')
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

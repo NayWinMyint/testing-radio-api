@@ -92,6 +92,8 @@ class Dejavu():
 				self.db.set_song_fingerprinted(sid)
 				self.get_fingerprinted_songs()
 
+
+
 		pool.close()
 		pool.join()
 
