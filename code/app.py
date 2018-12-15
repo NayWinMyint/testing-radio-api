@@ -1,10 +1,11 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Resource, Api
 from flask_jwt import JWT
 import boto3
 from config import S3_BUCKET, S3_KEY, S3_SECRET
 
-from resources.song import SongFingerprint, SongFingerprintDir
+from resources.song import SongUpload, SongFingerprintDir
 from resources.audio import AudioRecognise
 
 s3_resource = boto3.resource(
@@ -15,6 +16,7 @@ s3_resource = boto3.resource(
 bucket = s3_resource.Bucket("pancasikha")
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 
 @app.route('/files')
@@ -23,7 +25,7 @@ def files():
         print (s3_file.key)
 
     return 'success'
-api.add_resource(SongFingerprint, '/fingerprint')
+api.add_resource(SongUpload, '/upload_to_fingerprint')
 api.add_resource(SongFingerprintDir, '/fingerprint_dir')
 api.add_resource(AudioRecognise, '/recognise')
 

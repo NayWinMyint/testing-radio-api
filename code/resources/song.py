@@ -7,9 +7,9 @@ import boto3
 with open("dejavu.cnf") as f:
     config = json.load(f)
 
-class SongFingerprint(Resource):
+class SongUpload(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('files',
+    parser.add_argument('file',
         type=werkzeug.datastructures.FileStorage,
         location='files',
         required=True,
@@ -18,23 +18,24 @@ class SongFingerprint(Resource):
     )
 
     def post(self):
-        data = SongFingerprint.parser.parse_args()
+        data = SongUpload.parser.parse_args()
         print(data)
-        if data['files']:
-            songs = data['files']
+        if data['file']:
+            songs = data['file']
             for song in songs:
                 print('----------->')
                 print(song)
                 file_name = song.filename
                 file_path = os.path.join('/Volumes/Data/Workspace/pancasikha_radio_monitoring_api/code/temp', file_name)
                 song.save(file_path)
+                print("'{}' uploaded.".format(file_name))
+                #
+                # print("'{}' uploaded. Start fingerprinting...".format(file_name))
+                # djv = Dejavu(config)
+                # djv.fingerprint_file(file_path)
+                # print("'{}' fingerptinted. Next...".format(file_name))
 
-                print("'{}' uploaded. Start fingerprinting...".format(file_name))
-                djv = Dejavu(config)
-                djv.fingerprint_file(file_path)
-                print("'{}' fingerptinted. Next...".format(file_name))
-
-            return {'message': 'Fingerprinting success.'}
+            return {'message': 'Upload success.'}
 
         return {'message': 'No audio file found.'}, 404
 
