@@ -1,6 +1,4 @@
 from db import db;
-from uuid import uuid4
-from models.helpers.sqlalchemy_mysql_binary_uuid import BinaryUUID
 
 class FingerprintTaskModel(db.Model):
     __tablename__ = "fingerprinttasks"
