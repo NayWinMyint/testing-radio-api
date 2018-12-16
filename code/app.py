@@ -5,7 +5,7 @@ from flask_jwt import JWT
 import boto3
 from config import S3_BUCKET, S3_KEY, S3_SECRET
 
-from resources.song import SongUpload, SongFingerprintDir
+from resources.fingerprinttask import FingerprintTask, FingerprintTaskList, SongFingerprintDir
 from resources.audio import AudioRecognise
 
 s3_resource = boto3.resource(
@@ -17,7 +17,14 @@ bucket = s3_resource.Bucket("pancasikha")
 
 app = Flask(__name__)
 CORS(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:nayWIN30@localhost/dejavu'
+app.config['SQLCLCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLER_FINGERPRINT'] = '/Volumes/Data/Workspace/pancasikha_radio_monitoring_api/code/temp/to_fingerprint'
 api = Api(app)
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 @app.route('/files')
 def files():
@@ -25,10 +32,13 @@ def files():
         print (s3_file.key)
 
     return 'success'
-api.add_resource(SongUpload, '/upload_to_fingerprint')
+api.add_resource(FingerprintTask, '/fingerprint_task')
+api.add_resource(FingerprintTaskList, '/fingerprint_task_list')
 api.add_resource(SongFingerprintDir, '/fingerprint_dir')
 api.add_resource(AudioRecognise, '/recognise')
 
 
 if __name__ == '__main__':
+    from db import db
+    db.init_app(app)
     app.run(port=5000, debug=True)
