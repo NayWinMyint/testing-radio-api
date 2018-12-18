@@ -5,6 +5,7 @@ from flask_jwt import JWT
 import boto3
 from config import S3_BUCKET, S3_KEY, S3_SECRET
 
+from resources.radio import Radio, RadioList
 from resources.fingerprinttask import FingerprintTask, FingerprintTaskList, SongFingerprintDir
 from resources.recognisetask import RecogniseTask
 
@@ -32,6 +33,9 @@ def files():
         print (s3_file.key)
 
     return 'success'
+
+api.add_resource(Radio, '/radio/<string:name>')
+api.add_resource(RadioList, '/radios')
 api.add_resource(FingerprintTask, '/fingerprint_task')
 api.add_resource(FingerprintTaskList, '/fingerprint_task_list')
 
