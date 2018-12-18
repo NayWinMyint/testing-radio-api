@@ -19,6 +19,11 @@ class RecogniseTask(Resource):
         required=True,
         help="You cannot recognise without an audio file."
     )
+    parser.add_argument('channel_id',
+        type=str,
+        required=True,
+        help="Every task needs a channel id."
+    )
     parser.add_argument('data',
         type=str,
         required=True,

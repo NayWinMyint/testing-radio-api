@@ -13,11 +13,15 @@ class RecogniseTaskModel(db.Model):
     created = db.Column(db.String(20), unique=True, nullable=False)
     modified = db.Column(db.String(20))
 
+    channel_id = db.Column(db.Integer, db.ForeignKey('radios.id'))
+    channel = db.relationship('RadioModel')
+
     def __init__(self,
                 task_uuid, file, channel,
                 broadcasted_datetime,
                 progress, completed,
-                created, modified):
+                created, modified,
+                channel_id):
         self.task_uuid = task_uuid
         self.file = file
         self.channel = channel
@@ -26,6 +30,8 @@ class RecogniseTaskModel(db.Model):
         self.completed = completed
         self.created = created
         self.modified = modified
+
+        self.channel_id = channel_id
 
     def json(self):
         return {
