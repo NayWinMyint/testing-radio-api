@@ -6,7 +6,7 @@ import boto3
 from config import S3_BUCKET, S3_KEY, S3_SECRET
 
 from resources.fingerprinttask import FingerprintTask, FingerprintTaskList, SongFingerprintDir
-from resources.audio import AudioRecognise
+from resources.recognisetask import RecogniseTask
 
 s3_resource = boto3.resource(
    "s3",
@@ -34,8 +34,8 @@ def files():
     return 'success'
 api.add_resource(FingerprintTask, '/fingerprint_task')
 api.add_resource(FingerprintTaskList, '/fingerprint_task_list')
-api.add_resource(SongFingerprintDir, '/fingerprint_dir')
-api.add_resource(AudioRecognise, '/recognise')
+
+api.add_resource(RecogniseTask, '/recognise_task')
 
 
 if __name__ == '__main__':

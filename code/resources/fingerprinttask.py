@@ -3,7 +3,6 @@ import boto3
 import datetime
 
 from flask_restful import Resource, reqparse
-from flask_cors import cross_origin
 from dejavu import Dejavu
 from models.fingerprinttask import FingerprintTaskModel
 
@@ -61,7 +60,6 @@ class FingerprintTask(Resource):
             # create scheduled time slot
             today_datetime = datetime.datetime.now()
             created = today_datetime.timestamp()
-            modified = today_datetime.timestamp()
 
             scheduled_start_datetime = today_datetime.replace(hour=22, minute=0, second=0, microsecond=0).timestamp()
 
@@ -82,7 +80,7 @@ class FingerprintTask(Resource):
                     scheduled_start_datetime, #scheduled_start_datetime
                     scheduled_end_datetime, #scheduled_end_datetime
                     created, #created datetime
-                    modified #modified datetime
+                    created #modified datetime
                 )
 
                 try:
