@@ -19,7 +19,6 @@ mysql-connector-python
 mysqlclient
 numpy
 protobuf
-PyAudio
 pydub
 pyparsing
 python-dateutil
