@@ -1,4 +1,0 @@
-build:
-  packages:
-    - portaudio
-    - portaudio19-dev
