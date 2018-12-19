@@ -1,0 +1,15 @@
+Flask
+Flask-Cors
+Flask-RESTful
+Flask-JWT
+boto3
+Flask-SQLAlchemy
+mysql-connector-python
+numpy
+pydub
+wavio
+matplotlib
+scipy
+pyaudio
+mutagen
+mysqlclient
