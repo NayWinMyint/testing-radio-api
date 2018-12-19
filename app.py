@@ -23,10 +23,6 @@ app.config['SQLCLCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLER_FINGERPRINT'] = '/Volumes/Data/Workspace/pancasikha_radio_monitoring_api/code/temp/to_fingerprint'
 api = Api(app)
 
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
 @app.route('/files')
 def files():
     for s3_file in bucket.objects.all():
